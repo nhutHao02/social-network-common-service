@@ -8,7 +8,7 @@ var Logger *zap.Logger
 
 func InitLogger() error {
 	var err error
-	Logger, err = zap.NewProduction()
+	Logger, err = zap.NewProduction(zap.AddCallerSkip(1))
 	if err != nil {
 		return err
 	}
