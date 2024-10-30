@@ -1,9 +1,12 @@
 package token
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -18,6 +21,7 @@ func CreateToken(idUser string) (string, error) {
 		"iat": time.Now().Unix(),
 	})
 
+	// signature with secretKey
 	tokenString, err := claims.SignedString(secretKey)
 
 	if err != nil {
@@ -50,4 +54,30 @@ func VerifyToken(tokenString string) (jwt.MapClaims, error) {
 	}
 
 	return claims, nil
+}
+
+func GetUserId(c *gin.Context) (int64, error) {
+	// get jwt token
+	token, err := GetTokenString(c)
+	if err != nil {
+		return 0, errors.New("TOKEN_IS_MISSING")
+	}
+
+	claims, err := VerifyToken(token)
+	if err != nil {
+		return 0, err
+	}
+
+	return int64(claims["_id"].(float64)), nil
+}
+
+func GetTokenString(c *gin.Context) (string, error) {
+	tokenHeaderName := "Bearer "
+	authHeader := c.Request.Header.Get("Authorization")
+	if !strings.Contains(authHeader, tokenHeaderName) {
+		return "", errors.New("Does_not_exist_Bearer")
+	}
+	tokenString := authHeader[len(tokenHeaderName):]
+
+	return tokenString, nil
 }

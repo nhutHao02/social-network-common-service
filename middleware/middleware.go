@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -23,15 +22,13 @@ func NewUnauthorizedErrorResponse() *UnauthorizedErrorResponse {
 }
 
 func JwtAuthMiddleware(logger *zap.Logger) gin.HandlerFunc {
-	tokenHeaderName := "Bearer "
 	return func(c *gin.Context) {
-		authHeader := c.Request.Header.Get("Authorization")
-		if !strings.Contains(authHeader, tokenHeaderName) {
-			logger.Error("Token invalid")
+		tokenString, err := token.GetTokenString(c)
+		if err != nil {
+			logger.Error("Token invalid", zap.Error(err))
 			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse)
 			return
 		}
-		tokenString := authHeader[len(tokenHeaderName):]
 
 		claims, err := token.VerifyToken(tokenString)
 		if err != nil {
