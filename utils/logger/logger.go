@@ -4,11 +4,11 @@ import (
 	"go.uber.org/zap"
 )
 
-var Logger *zap.Logger
+var logger *zap.Logger
 
 func InitLogger() error {
 	var err error
-	Logger, err = zap.NewProduction(zap.AddCallerSkip(1))
+	logger, err = zap.NewProduction(zap.AddCallerSkip(1))
 	if err != nil {
 		return err
 	}
@@ -16,16 +16,20 @@ func InitLogger() error {
 }
 
 func Sync() {
-	if Logger != nil {
-		Logger.Sync()
+	if logger != nil {
+		logger.Sync()
 	}
+}
+
+func GetDefaultLogger() *zap.Logger {
+	return logger
 }
 
 // Các hàm tiện ích cho logger
 func Info(msg string, fields ...zap.Field) {
-	Logger.Info(msg, fields...)
+	logger.Info(msg, fields...)
 }
 
 func Error(msg string, fields ...zap.Field) {
-	Logger.Error(msg, fields...)
+	logger.Error(msg, fields...)
 }
