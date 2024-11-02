@@ -26,21 +26,21 @@ func JwtAuthMiddleware(logger *zap.Logger) gin.HandlerFunc {
 		tokenString, err := token.GetTokenString(c)
 		if err != nil {
 			logger.Error("Token invalid", zap.Error(err))
-			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse())
 			return
 		}
 
 		claims, err := token.VerifyToken(tokenString)
 		if err != nil {
 			logger.Error("Token invalid ", zap.Error(err))
-			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse())
 			return
 		}
 
 		exp := int64(claims["exp"].(float64))
 		if time.Now().Unix() > exp {
 			logger.Error("Token Expired")
-			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse())
 			return
 		}
 
