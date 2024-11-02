@@ -11,9 +11,6 @@ import (
 	constants "github.com/nhutHao02/social-network-common-service/utils/constanst"
 )
 
-func checkErr(c *gin.Context, err error) {
-
-}
 func CheckErrorType(c *gin.Context, err error) {
 	switch err.(type) {
 	case *json.UnmarshalTypeError:
