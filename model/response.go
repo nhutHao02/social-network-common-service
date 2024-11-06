@@ -13,7 +13,7 @@ type PagingSuccessResponse[T any] struct {
 }
 
 type ErrorMessage struct {
-	Errors  *error  `json:"errors"`
+	Errors  *string `json:"errors"`
 	Message *string `json:"message"`
 }
 
@@ -25,7 +25,7 @@ func NewSuccessResponse[T any](data T) Response[T] {
 	}
 }
 
-func NewErrorResponse(err error, message string) Response[any] {
+func NewErrorResponse(err string, message string) Response[any] {
 	return Response[any]{
 		Success: false,
 		Data:    nil,
