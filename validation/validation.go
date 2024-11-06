@@ -14,16 +14,16 @@ import (
 func CheckErrorType(c *gin.Context, err error) {
 	switch err.(type) {
 	case *json.UnmarshalTypeError:
-		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err, constants.RequestInvalid))
+		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err.Error(), constants.RequestInvalid))
 		return
 	case *json.SyntaxError:
-		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err, constants.RequestInvalid))
+		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err.Error(), constants.RequestInvalid))
 		return
 	case validator.ValidationErrors:
 		HandleValidationErrors(c, err)
 		return
 	default:
-		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err, constants.RequestInvalid))
+		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err.Error(), constants.RequestInvalid))
 		return
 	}
 
@@ -34,7 +34,7 @@ func HandleValidationErrors(c *gin.Context, err error) {
 		for _, fieldError := range validationErrs {
 			messages = append(messages, fieldError.Error())
 		}
-		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err, strings.Join(messages, ",")))
+		c.JSON(http.StatusBadRequest, model.NewErrorResponse(err.Error(), strings.Join(messages, ",")))
 		return
 	}
 }
