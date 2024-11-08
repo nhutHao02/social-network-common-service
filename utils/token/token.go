@@ -3,7 +3,6 @@ package token
 import (
 	"errors"
 	"fmt"
-	"strconv"
 	"strings"
 	"time"
 
@@ -13,7 +12,7 @@ import (
 
 var secretKey = []byte("nhuHao02-socialNetwork")
 
-func CreateToken(idUser string) (string, error) {
+func CreateToken(idUser int) (string, error) {
 	// create token with claims
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":  idUser,
@@ -68,17 +67,12 @@ func GetUserId(c *gin.Context) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	idStr, ok := claims["id"].(string)
+	id, ok := claims["id"].(float64)
 	if !ok {
-		return 0, errors.New("INVALID_TOKEN_CLAIM_TYPE")
+		return 0, fmt.Errorf("id not found in token claims")
 	}
 
-	idInt, err := strconv.Atoi(idStr)
-	if err != nil {
-		return 0, errors.New("INVALID_USER_ID")
-	}
-
-	return idInt, nil
+	return int(id), nil
 }
 
 func GetTokenString(c *gin.Context) (string, error) {
