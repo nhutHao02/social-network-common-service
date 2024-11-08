@@ -56,7 +56,7 @@ func VerifyToken(tokenString string) (jwt.MapClaims, error) {
 	return claims, nil
 }
 
-func GetUserId(c *gin.Context) (int64, error) {
+func GetUserId(c *gin.Context) (int, error) {
 	// get jwt token
 	token, err := GetTokenString(c)
 	if err != nil {
@@ -68,7 +68,7 @@ func GetUserId(c *gin.Context) (int64, error) {
 		return 0, err
 	}
 
-	return int64(claims["_id"].(float64)), nil
+	return int(claims["id"].(float64)), nil
 }
 
 func GetTokenString(c *gin.Context) (string, error) {

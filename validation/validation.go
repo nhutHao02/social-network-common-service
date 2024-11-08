@@ -28,6 +28,7 @@ func CheckErrorType(c *gin.Context, err error) {
 	}
 
 }
+
 func HandleValidationErrors(c *gin.Context, err error) {
 	if validationErrs, ok := err.(validator.ValidationErrors); ok {
 		var messages []string
