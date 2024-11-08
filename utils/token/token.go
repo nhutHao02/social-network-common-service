@@ -85,7 +85,7 @@ func GetTokenString(c *gin.Context) (string, error) {
 	tokenHeaderName := "Bearer "
 	authHeader := c.Request.Header.Get("Authorization")
 	if !strings.Contains(authHeader, tokenHeaderName) {
-		return "", errors.New("Does_not_exist_Bearer")
+		return "", errors.New("DOES_NOT_EXIST_Bearer")
 	}
 	tokenString := authHeader[len(tokenHeaderName):]
 
