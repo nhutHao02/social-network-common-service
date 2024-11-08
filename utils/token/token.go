@@ -3,6 +3,7 @@ package token
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -67,8 +68,17 @@ func GetUserId(c *gin.Context) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	idStr, ok := claims["id"].(string)
+	if !ok {
+		return 0, errors.New("INVALID_TOKEN_CLAIM_TYPE")
+	}
 
-	return int(claims["id"].(float64)), nil
+	idInt, err := strconv.Atoi(idStr)
+	if err != nil {
+		return 0, errors.New("INVALID_USER_ID")
+	}
+
+	return idInt, nil
 }
 
 func GetTokenString(c *gin.Context) (string, error) {
