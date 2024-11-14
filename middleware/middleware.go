@@ -45,7 +45,7 @@ func JwtAuthMiddleware(logger *zap.Logger) gin.HandlerFunc {
 
 		exp := int64(claims["exp"].(float64))
 		if time.Now().Unix() > exp {
-			logger.Error("Token Expired")
+			logger.Error("Token Expired.")
 			c.AbortWithStatusJSON(http.StatusUnauthorized, NewUnauthorizedErrorResponse())
 			return
 		}
@@ -68,7 +68,7 @@ func JWTUnaryInterceptor(
 	}
 
 	// Extract the Authorization header
-	authHeader, ok := md["Authorization"]
+	authHeader, ok := md["authorization"]
 	if !ok || len(authHeader) == 0 {
 		return nil, resErr.NewResError(nil, "Authorization token not provided")
 	}
