@@ -6,6 +6,15 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	go.uber.org/zap v1.27.0
+	google.golang.org/grpc v1.29.1
+)
+
+require (
+	github.com/golang/protobuf v1.5.0 // indirect
+	github.com/kr/pretty v0.1.0 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	google.golang.org/genproto v0.0.0-20200423170343-7949de9c1215 // indirect
+	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )
 
 require (
