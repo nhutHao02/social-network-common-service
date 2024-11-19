@@ -7,9 +7,9 @@ type Response[T any] struct {
 }
 
 type PagingSuccessResponse[T any] struct {
-	Success   bool `json:"success"`
-	Data      *T   `json:"data"`
-	TotalPage *int `json:"totalPage"`
+	Success   bool    `json:"success"`
+	Data      *T      `json:"data"`
+	TotalPage *uint64 `json:"totalPage"`
 }
 
 type ErrorMessage struct {
@@ -36,7 +36,7 @@ func NewErrorResponse(err string, message string) Response[any] {
 	}
 }
 
-func NewPagingSuccessResponse[T any](data T, totalPage int) PagingSuccessResponse[T] {
+func NewPagingSuccessResponse[T any](data T, totalPage uint64) PagingSuccessResponse[T] {
 	return PagingSuccessResponse[T]{
 		Success:   true,
 		Data:      &data,

@@ -3,6 +3,7 @@ package request
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/nhutHao02/social-network-common-service/model"
+	constants "github.com/nhutHao02/social-network-common-service/utils/constanst"
 	"github.com/nhutHao02/social-network-common-service/utils/logger"
 	"github.com/nhutHao02/social-network-common-service/validation"
 )
@@ -10,7 +11,7 @@ import (
 func GetBodyJSON(c *gin.Context, dest interface{}) (err error) {
 	err = c.ShouldBindJSON(dest)
 	if err != nil {
-		logger.Error("Error when context ShouldBindJSON from body request")
+		logger.Error(constants.ShoulBindJsonError)
 		validation.CheckErrorType(c, err)
 		return
 	}
@@ -26,7 +27,7 @@ func GetParam(c *gin.Context, key string) (data string) {
 func GetParamsFromUrl(c *gin.Context, dest interface{}) (err error) {
 	err = c.ShouldBindUri(dest)
 	if err != nil {
-		logger.Error("Error when context ShouldBindJSON from body request")
+		logger.Error(constants.ShoulBindJsonError)
 		validation.CheckErrorType(c, err)
 		return
 	}
@@ -37,7 +38,7 @@ func GetParamsFromUrl(c *gin.Context, dest interface{}) (err error) {
 func GetQueryParamsFromUrl(c *gin.Context, dest interface{}) (err error) {
 	err = c.ShouldBindQuery(dest)
 	if err != nil {
-		logger.Error("Error when context ShouldBindJSON from body request")
+		logger.Error(constants.ShoulBindJsonError)
 		validation.CheckErrorType(c, err)
 		return
 	}
@@ -48,7 +49,7 @@ func GetPaging(c *gin.Context) *model.Paging {
 	var p model.Paging
 	err := c.ShouldBindQuery(&p)
 	if err != nil {
-		logger.Error("Error when context ShouldBindJSON from body request")
+		logger.Error(constants.ShoulBindJsonError)
 		validation.CheckErrorType(c, err)
 		return nil
 	}
